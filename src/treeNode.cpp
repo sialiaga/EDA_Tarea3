@@ -9,17 +9,20 @@
 
 namespace trees {
 
-TreeNode::TreeNode(): parent(nullptr), data(-1), children(new TreeList()) {
+TreeNode::TreeNode(): parent(nullptr), dataText("0"), dataType(false), children(new TreeList()) {
 }
 
-TreeNode::TreeNode(int val): parent(nullptr), data(val), children(new TreeList()) {
+TreeNode::TreeNode(std::string val): parent(nullptr), dataText(val), dataType(false), children(new TreeList()) {
 }
 
 void TreeNode::setParent(TreeNode* node){
 	parent = node;
 }
-void TreeNode::setData(int val){
-		data = val;
+void TreeNode::setData(std::string text){
+	dataText = text;
+}
+void TreeNode::setType(bool type){
+	dataType = type;
 }
 void TreeNode::setChildren(TreeList* list){
 	children = list;
@@ -27,8 +30,11 @@ void TreeNode::setChildren(TreeList* list){
 TreeNode* TreeNode::getParent(){
 	return parent;
 }
-int TreeNode::getData(){
-	return data;
+std::string TreeNode::getData(){
+	return dataText;
+}
+bool TreeNode::getType(){
+	return dataType;
 }
 TreeList* TreeNode::getChildren(){
 	return children;
