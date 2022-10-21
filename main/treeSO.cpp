@@ -1,5 +1,6 @@
 #include <iostream>
 #include "trees/tree.hpp"
+#include "lLists/linkedList.hpp"
 #include <cstring>
 
 int main(int nargs, char** vargs){
