@@ -21,7 +21,7 @@ public:
 	TreeSO();
 	void setRoot(Item* node);
 	void insert(Item* node, Item* parent);
-	void insert(std::string child, std::string parent);
+	void insert(std::string child, bool IsFolder, std::string parent);
 	Item* find_rec(std::string val, Item* node);
 	Item* find(std::string val);
 	void traverse_rec(Item* node, int level);

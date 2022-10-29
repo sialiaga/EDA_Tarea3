@@ -10,7 +10,7 @@ string position;
 
 int main(int argc, char const *argv[])
 {
-	so.setRoot(new Item("root"));
+	so.setRoot(new Item("root", true));
 	cout << "TreeSO" << endl << "¡Bienvenido a TreeSO!" << endl << "¡Autores: Samuel Aliaga y Catalina Vergara!" << endl;
 	while (true)
 	{

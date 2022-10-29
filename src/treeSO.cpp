@@ -25,10 +25,10 @@ void TreeSO::insert(Item* child, Item* parent){
 	}
 }
 
-void TreeSO::insert(std::string val, std::string val_parent){
+void TreeSO::insert(std::string val, bool IsFolder, std::string val_parent){
 	Item* parent = find(val_parent);
 	if (parent != nullptr){
-		Item* child = new Item(val);
+		Item* child = new Item(val, IsFolder);
 		insert(child, parent);
 		std::cout << "insertado " << val << " in " << val_parent << " at " << parent << std::endl;
 	}

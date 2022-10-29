@@ -12,7 +12,7 @@ namespace treeSO {
 Item::Item(): parent(nullptr), dataText("0"), folderType(false), children(new TreeSOList()) {
 }
 
-Item::Item(std::string val): parent(nullptr), dataText(val), folderType(false), children(new TreeSOList()) {
+Item::Item(std::string val, bool IsFolder): parent(nullptr), dataText(val), folderType(IsFolder), children(new TreeSOList()) {
 }
 
 void Item::setParent(Item* node){

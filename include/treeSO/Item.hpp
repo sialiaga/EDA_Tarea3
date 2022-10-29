@@ -22,7 +22,7 @@ private:
 	TreeSOList* children;
 public:
 	Item();
-	Item(std::string dataText);
+	Item(std::string dataText, bool IsFolder);
 	void setParent(Item* node);
 	void setData(std::string text);
 	void setType(bool type);
