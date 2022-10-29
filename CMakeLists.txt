@@ -10,7 +10,7 @@ LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(treeSO main/treeSO.cpp src/treeNode.cpp src/treeListNode.cpp src/treeList.cpp src/tree.cpp)
+add_executable(treeSO main/main.cpp src/Item.cpp src/treeSOListItem.cpp src/treeSOList.cpp src/treeSO.cpp)
 target_include_directories(treeSO PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 

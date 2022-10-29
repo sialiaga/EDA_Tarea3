@@ -5,16 +5,16 @@
  *      Author: jsaavedr
  */
 
-#include "trees/treeList.hpp"
+#include "treeSO/treeSOList.hpp"
 #include <iostream>
-namespace trees {
+namespace treeSO {
 
-TreeList::TreeList(): head(nullptr) {
+TreeSOList::TreeSOList(): head(nullptr) {
 	// TODO Auto-generated constructor stub
 }
 
-void TreeList::insertFirst(TreeNode* treeNode){
-	TreeListNode* node = new TreeListNode(treeNode);
+void TreeSOList::insertFirst(Item* Item){
+	TreeSOListItem* node = new TreeSOListItem(Item);
 	if (head == nullptr) {
 		head = node;
 	}
@@ -24,12 +24,12 @@ void TreeList::insertFirst(TreeNode* treeNode){
 	}
 }
 
-TreeListNode* TreeList::getHead(){
+TreeSOListItem* TreeSOList::getHead(){
 	return head;
 }
 
-void TreeList::removeFirst(){
-	TreeListNode* ptr = head;
+void TreeSOList::removeFirst(){
+	TreeSOListItem* ptr = head;
 	if (head != nullptr){
 		head = head->getNext();
 		delete ptr;
@@ -37,9 +37,9 @@ void TreeList::removeFirst(){
 }
 
 
-void TreeList::remove(std::string val){
-	TreeListNode* ptr = head;
-	TreeListNode* ptr_prev = nullptr;
+void TreeSOList::remove(std::string val){
+	TreeSOListItem* ptr = head;
+	TreeSOListItem* ptr_prev = nullptr;
 	while (ptr != nullptr){
 		if ((ptr->getData())->getData() == val){
 			//erase node
@@ -61,33 +61,33 @@ void TreeList::remove(std::string val){
 	}
 }
 
-void TreeList::removeAll(){
+void TreeSOList::removeAll(){
 	while (head != nullptr){
 		removeFirst();
 	}
 }
 
-TreeNode* TreeList::find(std::string val){
-	TreeListNode* ptr = head;
+Item* TreeSOList::find(std::string val){
+	TreeSOListItem* ptr = head;
 	while ((ptr != nullptr) && ((ptr->getData())->getData() != val)){
 		ptr = ptr->getNext();
 	}
 	return ptr->getData();
 }
 
-bool TreeList::isEmpty(){
+bool TreeSOList::isEmpty(){
 	return (head == nullptr);
 }
 
-void TreeList::print(){
-	TreeListNode* ptr = head;
+void TreeSOList::print(){
+	TreeSOListItem* ptr = head;
 	while (ptr != nullptr){
 		std::cout << ptr->getData()->getData() << " - " <<std::endl;
 		ptr = ptr -> getNext();
 	}
 }
 
-TreeList::~TreeList() {
+TreeSOList::~TreeSOList() {
 	removeAll();
 }
 

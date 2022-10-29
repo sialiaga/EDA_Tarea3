@@ -5,44 +5,44 @@
  *      Author: jsaavedr
  */
 
-#include "trees/tree.hpp"
+#include "treeSO/treeSO.hpp"
 #include <iostream>
 
-namespace trees {
+namespace treeSO {
 
-Tree::Tree(): root(nullptr) {
+TreeSO::TreeSO(): root(nullptr) {
 
 }
 
-void Tree::setRoot(TreeNode* node){
+void TreeSO::setRoot(Item* node){
 	if (root == nullptr){
 		root = node;
 	}
 }
-void Tree::insert(TreeNode* child, TreeNode* parent){
+void TreeSO::insert(Item* child, Item* parent){
 	if (parent != nullptr){
 		parent->getChildren()->insertFirst(child);
 	}
 }
 
-void Tree::insert(std::string val, std::string val_parent){
-	TreeNode* parent = find(val_parent);
+void TreeSO::insert(std::string val, std::string val_parent){
+	Item* parent = find(val_parent);
 	if (parent != nullptr){
-		TreeNode* child = new TreeNode(val);
+		Item* child = new Item(val);
 		insert(child, parent);
 		std::cout << "insertado " << val << " in " << val_parent << " at " << parent << std::endl;
 	}
 }
 
-TreeNode* Tree::find_rec(std::string val, TreeNode* node){
-	TreeNode* ans = nullptr;
+Item* TreeSO::find_rec(std::string val, Item* node){
+	Item* ans = nullptr;
 	if (node != nullptr){
 		if (node->getData() == val){
 			ans = node;
 		}
 		else{ // search in children
-			TreeList* childrenList = node->getChildren();
-			TreeListNode* ptr = childrenList->getHead();
+			TreeSOList* childrenList = node->getChildren();
+			TreeSOListItem* ptr = childrenList->getHead();
 			while (ptr!=nullptr && ans == nullptr){
 				ans = find_rec(val, ptr->getData());
 				ptr = ptr->getNext();
@@ -52,18 +52,18 @@ TreeNode* Tree::find_rec(std::string val, TreeNode* node){
 	return ans;
 }
 
-TreeNode* Tree::find(std::string val){
-	TreeNode* ans = find_rec(val, root);
+Item* TreeSO::find(std::string val){
+	Item* ans = find_rec(val, root);
 	return ans;
 }
 
 
-void Tree::traverse_rec(TreeNode* node, int level){
+void TreeSO::traverse_rec(Item* node, int level){
 	if (node != nullptr){
 		std::cout << std::string(level*2, '-');
 		std::cout<<node->getData() << " at level " << level <<std::endl;
-		TreeList* childrenList = node->getChildren();
-		TreeListNode* ptr = childrenList->getHead();
+		TreeSOList* childrenList = node->getChildren();
+		TreeSOListItem* ptr = childrenList->getHead();
 		while (ptr!=nullptr){
 			traverse_rec(ptr->getData(), level + 1);
 			ptr = ptr->getNext();
@@ -71,11 +71,11 @@ void Tree::traverse_rec(TreeNode* node, int level){
 	}
 }
 
-void Tree::traverse(){
+void TreeSO::traverse(){
 	traverse_rec(root, 1);
 }
 
-Tree::~Tree() {
+TreeSO::~TreeSO() {
 	delete root;
 }
 

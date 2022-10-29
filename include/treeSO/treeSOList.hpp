@@ -8,27 +8,27 @@
 #ifndef CHILDRENLIST_HPP_
 #define CHILDRENLIST_HPP_
 
-#include "trees/treeListNode.hpp"
+#include "treeSO/treeSOListItem.hpp"
 #include <string>
 
-namespace trees {
+namespace treeSO {
 
-class TreeNode;
-class TreeListNode;
-class TreeList {
+class Item;
+class TreeSOListItem;
+class TreeSOList {
 private:
-	TreeListNode* head;
+	TreeSOListItem* head;
 public:
-	TreeList();
-	TreeListNode* getHead();
-	void insertFirst(TreeNode* treeNode);
+	TreeSOList();
+	TreeSOListItem* getHead();
+	void insertFirst(Item* Item);
 	void removeFirst();
 	void remove(std::string val);
 	void removeAll();
 	bool isEmpty();
-	TreeNode* find(std::string val);
+	Item* find(std::string val);
 	void print();
-	virtual ~TreeList();
+	virtual ~TreeSOList();
 };
 
 } /* namespace trees */
