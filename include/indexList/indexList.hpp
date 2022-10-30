@@ -26,6 +26,8 @@ public:
 	void removeAll();
 	IndexNode* find(int _index);
 	IndexNode* findText(std::string);
+	IndexNode* getHead();
+	int getLength();
 	void print();
 	virtual ~IndexList();
 };

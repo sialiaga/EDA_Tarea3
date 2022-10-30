@@ -38,7 +38,6 @@ void IndexList::insertLast(std::string text){
 	IndexNode* node = new IndexNode(length, text);
 	if (head == nullptr) {
 		head = node;
-		length++;
 	}
 	else{
 		IndexNode* ptr = head;
@@ -47,6 +46,7 @@ void IndexList::insertLast(std::string text){
 		}
 		ptr->setNext(node);
 	}
+	length++;
 }
 
 void IndexList::removeFirst(){
@@ -170,6 +170,14 @@ IndexNode* IndexList::findText(std::string text){
 		ptr = ptr->getNext();
 	}
 	return ptr;
+}
+
+IndexNode* IndexList::getHead(){
+	return head;
+}
+
+int IndexList::getLength(){
+	return length;
 }
 
 void IndexList::print(){
