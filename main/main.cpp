@@ -24,6 +24,7 @@ string auxStrPosition;
 IndexList auxInstruction;
 IndexList auxPosition;
 Item * auxItemPosition;
+TreeSOListItem * auxListItem;
 IndexNode * auxNode;
 
 //TOOLS	
@@ -105,11 +106,12 @@ int find_location(){
 	return IsFound ;
 }
 
-//FUNCTION
 void command_clean(){
-	cout << string(0, '\n');
+	cout << string(100, '\n');
 	cout << "TreeSO" << endl << "¡Bienvenido a TreeSO!" << endl << "¡Autores: Samuel Aliaga y Catalina Vergara!" << endl;
 }
+
+//FUNCTION
 
 void command_cd(){
 	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
@@ -125,24 +127,33 @@ void command_ls(){
 	if(find_location()) auxItemPosition->getChildren()->print();
 	else show_error("fl_nf");
 	
-
 }
 
 void command_mkdir(){
 	auxString = auxInstruction.find(1)->getDataText();
-	if(auxString == "/" or auxString == "." or auxString == "..") show_error("cm_ac");
+	if(auxString == "/" or auxString == "." or auxString == ".." or auxString == "root" or auxString == "") show_error("cm_ac");
 	else so.insert(new Item(auxString, true), itemPosition);
 }
 
 void command_mkfile(){
 	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
-	if(find_location())so.insert(new Item(auxInstruction.find(2)->getDataText(), false), auxItemPosition);
-	else show_error("cm_ic");
+	auxString = auxInstruction.find(2)->getDataText();
+	if(auxString == "/" or auxString == "." or auxString == ".." or auxString == "root" or auxString == "") show_error("cm_ac");
+	else {
+		if(find_location())so.insert(new Item(auxInstruction.find(2)->getDataText(), false), auxItemPosition);
+		else show_error("cm_ic");}
 	
 }
 
 void command_rm(){
-	
+	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
+	auxString = auxInstruction.find(1)->getDataText();
+	if(auxString == "/" or auxString == "." or auxString == "..") show_error("cm_ic");
+	else {
+		if(find_location()){
+			auxItemPosition->getParent()->getChildren()->remove(auxItemPosition->getData());
+		}
+		else show_error("fl_nf");}	
 }
 
 void command_tree(){
@@ -153,21 +164,32 @@ void command_tree(){
 }
 
 void command_find(){
+	int founded = 0;
+	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
+	if(find_location()){
+		cout<< "Items encontrados:" << endl;
+		for( auxListItem = auxItemPosition->getChildren()->getHead();
+								auxListItem != nullptr;
+								auxListItem = auxListItem->getNext()){
+		
+		if((auxListItem->getData()->getData()).find(auxInstruction.find(2)->getDataText()) != string::npos){
+			founded = 1;
+			cout<< "> " << auxListItem->getData()->getData();
+			if (auxListItem->getData()->getType() == true) cout<< "/";
+			cout<< endl;
+		}
+		
+		}
+		if (founded == 0) cout<< "No se encontraron coincidencias." << endl;
+
+	}
+	else show_error("fl_nf");
 	
 }
 
 int main(int argc, char const *argv[])
 {
 	so.setRoot(new Item("root", true));
-	itemPosition = so.find("root");
-	so.insert(new Item("juan", true), itemPosition);
-	so.insert(new Item("camilo", true), itemPosition);
-	itemPosition = so.find("juan");
-	so.insert(new Item("miguel", true), itemPosition);
-	so.insert(new Item("daniela", true), itemPosition);
-	itemPosition = so.find("camilo");
-	so.insert(new Item("cristian", true), itemPosition);
-	so.insert(new Item("javiera", true), itemPosition);
 	itemPosition = so.find("root");
 	auxStrPosition = "root";
 	command_clean();
@@ -199,6 +221,7 @@ int main(int argc, char const *argv[])
 		}
 		else if(auxStrInstruction == "ls"){
 			if(auxLenght == 2) command_ls();
+			else if(auxLenght == 1) itemPosition->getChildren()->print();
 			else show_error("cm_ac");
 		}
 		else if(auxStrInstruction == "mkdir"){
@@ -218,7 +241,7 @@ int main(int argc, char const *argv[])
 			else show_error("cm_ac");
 		}
 		else if(auxStrInstruction == "find"){
-			if(auxLenght == 2) command_find();
+			if(auxLenght == 3) command_find();
 			else show_error("cm_ac");
 		}
 		else show_error("cm_ne");
@@ -227,21 +250,3 @@ int main(int argc, char const *argv[])
 	return 0;
 }
 
-
-// int main(int nargs, char** vargs){
-// 	treeSO::TreeSO tree;
-// 	tree.setRoot(new treeSO::Item("puerta"));
-// 	tree.insert("comedor","puerta");
-// 	tree.insert("cocina","comedor");
-// 	tree.insert("patio","puerta");
-// 	tree.insert("calle","patio");
-// 	tree.insert("garage","cocina");
-// 	tree.insert("segundo piso","comedor");
-// 	tree.traverse();
-// 	std::cout<<"Mostrar los hijos de comedor" << std::endl;
-// 	treeSO::Item* node = tree.find("comedor");
-// 	if (node != nullptr){
-// 		node->getChildren()->print();
-// 	}
-// 	return 0;
-// }

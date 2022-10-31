@@ -60,16 +60,20 @@ Item* TreeSO::find(std::string val){
 
 
 void TreeSO::traverse_rec(Item* node, int level){
+	int i;
 	if (node != nullptr){
 		if (level == 1){
 			std::cout <<std::string((level-1), ' ')<< "|" << std::endl;
-			std::cout <<std::string((level-1), ' ')<< "└" <<std::string(level, '-');
+			std::cout <<std::string((level-1), ' ')<< "└";
+			for (i=0; i<level;i++) std::cout << "─";
 		}	
 		if (level > 1) {
-			std::cout <<std::string((level-1), ' ')<< " |" << std::endl;
-			std::cout <<std::string((level-1), ' ')<< " └" <<std::string(level, '-');
+			std::cout <<std::string((level-1), ' ')<< "|" << std::endl;
+			std::cout <<std::string((level-1), ' ')<< "└";
+			for (i=0; i<level;i++) std::cout << "─";
 		}
-		std::cout<<node->getData() <<std::endl;
+		if(node->getData() == "root") std::cout<<"/"<<std::endl;
+		else std::cout<<node->getData()<<std::endl;
 		TreeSOList* childrenList = node->getChildren();
 		TreeSOListItem* ptr = childrenList->getHead();
 		while (ptr!=nullptr){
