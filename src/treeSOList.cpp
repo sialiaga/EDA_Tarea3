@@ -69,8 +69,10 @@ void TreeSOList::removeAll(){
 
 Item* TreeSOList::find(std::string val){
 	TreeSOListItem* ptr = head;
-	while ((ptr != nullptr) && ((ptr->getData())->getData() != val)){
-		ptr = ptr->getNext();
+	while ((ptr != nullptr)){
+		if (((ptr->getData())->getData() != val))
+			ptr = ptr->getNext();
+		else break;
 	}
 	return ptr->getData();
 }
@@ -81,10 +83,14 @@ bool TreeSOList::isEmpty(){
 
 void TreeSOList::print(){
 	TreeSOListItem* ptr = head;
-	while (ptr != nullptr){
-		std::cout << ptr->getData()->getData() << " - " <<std::endl;
-		ptr = ptr -> getNext();
-	}
+	if(ptr == nullptr) std::cout<< "INFO: Carpeta vacia"<<std::endl;
+	else {
+		while (ptr != nullptr){
+			if (ptr->getData()->getType()) std::cout << ptr->getData()->getData() << "/      ";
+			else std::cout << ptr->getData()->getData() << "       ";
+			ptr = ptr -> getNext();
+		}
+		std::cout<<std::endl;}
 }
 
 TreeSOList::~TreeSOList() {

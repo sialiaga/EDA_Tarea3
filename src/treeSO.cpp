@@ -22,6 +22,7 @@ void TreeSO::setRoot(Item* node){
 void TreeSO::insert(Item* child, Item* parent){
 	if (parent != nullptr){
 		parent->getChildren()->insertFirst(child);
+		child->setParent(parent);
 	}
 }
 

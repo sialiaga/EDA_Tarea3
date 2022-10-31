@@ -16,9 +16,12 @@ string usercin;
 IndexList textPosition;
 
 int auxLenght;
+string auxString;
 string auxStrInstruction;
+string auxStrPosition;
 IndexList auxInstruction;
 IndexList auxPosition;
+Item * auxItemPosition;
 IndexNode * auxNode;
 
 //TOOLS	
@@ -41,6 +44,44 @@ void show_error(string type){
 	else if(type=="cm_ic") cout<< "ERROR: Conflicto con item seleccionado"<<endl;
 }
 
+int find_location(){
+	TreeSOListItem* ptr;
+	int IsFound = 0;
+	for (int i=0; i<auxPosition.getLength();i++){
+		auxString = auxPosition.find(i)->getDataText();
+		if(i == 0){
+			if(auxString == ".") {
+				auxItemPosition = itemPosition;
+				IsFound  = 1;
+				continue;
+			}
+			else if(auxString == ".."){
+				if (itemPosition->getParent() != nullptr){
+					auxItemPosition = itemPosition->getParent();
+					IsFound  = 1;
+					continue;
+				}
+				else return 0;
+			}
+			else if(auxString == ""){
+				 auxItemPosition = so.find("root");
+				 IsFound  = 1;
+				 continue;
+			}
+		}
+		IsFound  = 0;
+		for(ptr=auxItemPosition->getChildren()->getHead(); ptr != nullptr; ptr= ptr->getNext())
+		{
+			if(ptr->getData()->getData() == auxString){
+				IsFound = 1;
+				auxItemPosition = auxItemPosition->getChildren()->find(auxString);
+			}
+		}
+		
+	}
+	return IsFound ;
+}
+
 //FUNCTION
 void command_clean(){
 	cout << string(0, '\n');
@@ -48,18 +89,22 @@ void command_clean(){
 }
 
 void command_cd(){
+	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
 
 }
 
 void command_ls(){
 	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
-	if (auxPosition.find(0)->getDataText() == "."){
-		itemPosition->getChildren()->print();
-	}
+	if(find_location()) auxItemPosition->getChildren()->print();
+	else show_error("fl_nf");
+	
+
 }
 
 void command_mkdir(){
-	
+	auxString = auxInstruction.find(1)->getDataText();
+	if(auxString == "/" or auxString == "." or auxString == "..") show_error("cm_ac");
+	else so.insert(new Item(auxString, true), itemPosition);
 }
 
 void command_mkfile(){
@@ -82,14 +127,23 @@ int main(int argc, char const *argv[])
 {
 	so.setRoot(new Item("root", true));
 	itemPosition = so.find("root");
+	auxStrPosition = "root";
+	so.insert(new Item("documentos", true), itemPosition);
+	so.insert(new Item("fotos", true), itemPosition);
+	so.insert(new Item("videos", true), itemPosition);
+	so.insert(new Item("video.mp4", false), itemPosition);
+	itemPosition = so.find("documentos");
+	auxStrPosition += "/documentos";
 	command_clean();
 	while (true)
 	{
-		if(textPosition.getHead()==nullptr) cout << "/";
-		for(auxNode = textPosition.getHead(); 
+		split(textPosition, auxStrPosition, '/');
+		if (itemPosition == so.find("root")) cout << "/";
+		for(auxNode = textPosition.getHead()->getNext(); 
 				auxNode != nullptr; 
 				auxNode = auxNode->getNext()){
-					cout << auxNode->getDataText() << "/";
+					cout << "/";
+					cout << auxNode->getDataText();
 				}
 		cout << "#";
 		getline(cin>>ws, usercin); split(auxInstruction, usercin, ' ');
