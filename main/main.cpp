@@ -47,6 +47,7 @@ void show_error(string type){
 int find_location(){
 	TreeSOListItem* ptr;
 	int IsFound = 0;
+	auxItemPosition = itemPosition;
 	for (int i=0; i<auxPosition.getLength();i++){
 		auxString = auxPosition.find(i)->getDataText();
 		if(i == 0){
@@ -64,7 +65,7 @@ int find_location(){
 				else return 0;
 			}
 			else if(auxString == ""){
-				 auxItemPosition = so.find("root");
+				 auxItemPosition = so.find("/");
 				 IsFound  = 1;
 				 continue;
 			}
@@ -116,6 +117,9 @@ void command_rm(){
 }
 
 void command_tree(){
+	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
+	if(find_location()) so.traverse_rec(auxItemPosition, 0);
+	else show_error("fl_nf");
 	
 }
 
@@ -125,20 +129,23 @@ void command_find(){
 
 int main(int argc, char const *argv[])
 {
-	so.setRoot(new Item("root", true));
-	itemPosition = so.find("root");
-	auxStrPosition = "root";
-	so.insert(new Item("documentos", true), itemPosition);
-	so.insert(new Item("fotos", true), itemPosition);
-	so.insert(new Item("videos", true), itemPosition);
-	so.insert(new Item("video.mp4", false), itemPosition);
-	itemPosition = so.find("documentos");
-	auxStrPosition += "/documentos";
+	so.setRoot(new Item("/", true));
+	itemPosition = so.find("/");
+	so.insert(new Item("juan", true), itemPosition);
+	so.insert(new Item("camilo", true), itemPosition);
+	itemPosition = so.find("juan");
+	so.insert(new Item("miguel", true), itemPosition);
+	so.insert(new Item("daniela", true), itemPosition);
+	itemPosition = so.find("camilo");
+	so.insert(new Item("cristian", true), itemPosition);
+	so.insert(new Item("javiera", true), itemPosition);
+	itemPosition = so.find("/");
+	auxStrPosition = "/";
 	command_clean();
 	while (true)
 	{
 		split(textPosition, auxStrPosition, '/');
-		if (itemPosition == so.find("root")) cout << "/";
+		if (itemPosition == so.find("/")) cout << "/";
 		for(auxNode = textPosition.getHead()->getNext(); 
 				auxNode != nullptr; 
 				auxNode = auxNode->getNext()){
