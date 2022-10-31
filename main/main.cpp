@@ -60,7 +60,7 @@ void reset_StrPosition(){
 			
 }
 
-int find_location(){
+int find_location(bool check_type){
 	TreeSOListItem* ptr;
 	int IsFound = 0;
 	auxItemPosition = itemPosition;
@@ -98,7 +98,9 @@ int find_location(){
 				IsFound = 1;
 				auxItemPosition = auxItemPosition->getChildren()->find(auxString);
 				auxTextPosition.insertLast(auxString);
-				if (auxItemPosition->getType() == false) return 0;
+				if (check_type){
+					if (auxItemPosition->getType() == false) return 0;
+				}
 			}
 		}
 		
@@ -115,7 +117,7 @@ void command_clean(){
 
 void command_cd(){
 	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
-	if(find_location()){
+	if(find_location(true)){
 		reset_StrPosition();
 		itemPosition = auxItemPosition;
 	}
@@ -124,7 +126,7 @@ void command_cd(){
 
 void command_ls(){
 	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
-	if(find_location()) auxItemPosition->getChildren()->print();
+	if(find_location(true)) auxItemPosition->getChildren()->print();
 	else show_error("fl_nf");
 	
 }
@@ -140,7 +142,7 @@ void command_mkfile(){
 	auxString = auxInstruction.find(2)->getDataText();
 	if(auxString == "/" or auxString == "." or auxString == ".." or auxString == "root" or auxString == "") show_error("cm_ac");
 	else {
-		if(find_location())so.insert(new Item(auxInstruction.find(2)->getDataText(), false), auxItemPosition);
+		if(find_location(true))so.insert(new Item(auxInstruction.find(2)->getDataText(), false), auxItemPosition);
 		else show_error("cm_ic");}
 	
 }
@@ -150,7 +152,7 @@ void command_rm(){
 	auxString = auxInstruction.find(1)->getDataText();
 	if(auxString == "/" or auxString == "." or auxString == "..") show_error("cm_ic");
 	else {
-		if(find_location()){
+		if(find_location(false)){
 			auxItemPosition->getParent()->getChildren()->remove(auxItemPosition->getData());
 		}
 		else show_error("fl_nf");}	
@@ -158,7 +160,7 @@ void command_rm(){
 
 void command_tree(){
 	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
-	if(find_location()) so.traverse_rec(auxItemPosition, 0);
+	if(find_location(true)) so.traverse_rec(auxItemPosition, 0);
 	else show_error("fl_nf");
 	
 }
@@ -166,7 +168,7 @@ void command_tree(){
 void command_find(){
 	int founded = 0;
 	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
-	if(find_location()){
+	if(find_location(true)){
 		cout<< "Items encontrados:" << endl;
 		for( auxListItem = auxItemPosition->getChildren()->getHead();
 								auxListItem != nullptr;
