@@ -40,7 +40,7 @@ void split(IndexList &aux, string t, char s)
 void show_error(string type){
 	if(type=="cm_ne") cout<< "ERROR: Comando no existente" << endl;
 	else if(type=="cm_ac") cout<< "ERROR: conflicto con argumentos entregado"<<endl;
-	else if(type=="fl_nf") cout<< "ERROR: Archivo no encontrado"<<endl;
+	else if(type=="fl_nf") cout<< "ERROR: Directorio no encontrado // no es un direcitorio"<<endl;
 	else if(type=="cm_ic") cout<< "ERROR: Conflicto con item seleccionado"<<endl;
 }
 
@@ -73,9 +73,11 @@ int find_location(){
 		IsFound  = 0;
 		for(ptr=auxItemPosition->getChildren()->getHead(); ptr != nullptr; ptr= ptr->getNext())
 		{
+			
 			if(ptr->getData()->getData() == auxString){
 				IsFound = 1;
 				auxItemPosition = auxItemPosition->getChildren()->find(auxString);
+				if (auxItemPosition->getType() == false) return 0;
 			}
 		}
 		
@@ -109,6 +111,9 @@ void command_mkdir(){
 }
 
 void command_mkfile(){
+	split(auxPosition, auxInstruction.find(1)->getDataText(), '/');
+	if(find_location())so.insert(new Item(auxInstruction.find(2)->getDataText(), false), auxItemPosition);
+	else show_error("cm_ic");
 	
 }
 
