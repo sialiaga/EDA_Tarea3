@@ -68,8 +68,8 @@ void TreeSO::traverse_rec(Item* node, int level){
 			for (i=0; i<level;i++) std::cout << "─";
 		}	
 		if (level > 1) {
-			std::cout <<std::string((level-1), ' ')<< "|" << std::endl;
-			std::cout <<std::string((level-1), ' ')<< "└";
+			std::cout <<std::string((level-1), ' ')<< " |" << std::endl;
+			std::cout <<std::string((level-1), ' ')<< " └";
 			for (i=0; i<level;i++) std::cout << "─";
 		}
 		if(node->getData() == "root") std::cout<<"/"<<std::endl;

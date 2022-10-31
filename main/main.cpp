@@ -24,6 +24,7 @@ string auxStrPosition;
 IndexList auxInstruction;
 IndexList auxPosition;
 Item * auxItemPosition;
+Item * auxItem;
 TreeSOListItem * auxListItem;
 IndexNode * auxNode;
 
@@ -153,6 +154,12 @@ void command_rm(){
 	if(auxString == "/" or auxString == "." or auxString == "..") show_error("cm_ic");
 	else {
 		if(find_location(false)){
+			for (auxItem = itemPosition->getParent(); auxItem != nullptr; auxItem= auxItem->getParent()){
+				if (auxItem->getData() == auxItemPosition->getData()){
+					show_error("cm_ic");
+					return;
+				}
+			}
 			auxItemPosition->getParent()->getChildren()->remove(auxItemPosition->getData());
 		}
 		else show_error("fl_nf");}	
